@@ -9,7 +9,7 @@ endif
 syntax enable
 
 " highlight HTML syntax in PHP files
-let g:php_htmlInStrings=1
+let g:php_htmlInStrings = 1
 
 " =========== TABS AND SPACES ===========
 
@@ -64,13 +64,6 @@ autocmd BufEnter * execute 'sign place 9999 line=1 name=dummy buffer=' . bufnr('
 " turn off error bell
 autocmd! GUIEnter * set vb t_vb=
 
-" turn off undercurls
-autocmd ColorScheme * hi clear SpellBad
-    \| hi SpellBad term=reverse ctermbg=12 guisp=Firebrick2
-    \| hi SpellCap term=reverse ctermbg=9 guisp=Blue
-    \| hi SpellRare term=reverse ctermbg=13 guisp=Magenta
-    \| hi SpellLocal term=reverse ctermbg=11
-
 " =========== EDITING ===========
 
 " set default encoding
@@ -113,8 +106,8 @@ au BufNewFile,BufRead *.applescript set filetype=applescript
 if !has ('nvim')
     if has('python3')
         command! -nargs=1 Py py3 <args>
-        set pythonthreedll=/usr/local/Frameworks/Python.framework/Versions/3.6/Python
-        set pythonthreehome=/usr/local/Frameworks/Python.framework/Versions/3.6
+        set pythonthreedll=/usr/local/Frameworks/Python.framework/Versions/3.7/Python
+        set pythonthreehome=/usr/local/Frameworks/Python.framework/Versions/3.7
     else
         command! -nargs=1 Py py <args>
         set pythondll=/usr/local/Frameworks/Python.framework/Versions/2.7/Python
@@ -127,15 +120,15 @@ endif
 call plug#begin('~/.vim/plugged')
 
 " syntax highlighting
-Plug 'aklt/plantuml-syntax', { 'for': 'plantuml' }
-Plug 'ARM9/arm-syntax-vim', { 'for': 'arm' }
-Plug 'plasticboy/vim-markdown', { 'for': 'markdown' }
-Plug 'solarnz/thrift.vim', { 'for': 'thrift' }
-Plug 'vim-scripts/applescript.vim', { 'for': 'applescript' }
+Plug 'aklt/plantuml-syntax', {'for': 'plantuml'}
+Plug 'ARM9/arm-syntax-vim', {'for': 'arm'}
+Plug 'plasticboy/vim-markdown', {'for': 'markdown'}
+Plug 'solarnz/thrift.vim', {'for': 'thrift'}
+Plug 'vim-scripts/applescript.vim', {'for': 'applescript'}
 
 " autocompletion
 if has('nvim')
-    Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+    Plug 'Shougo/deoplete.nvim', {'do': ':UpdateRemotePlugins'}
 else
     Plug 'Shougo/deoplete.nvim'
     Plug 'roxma/nvim-yarp'
@@ -147,11 +140,9 @@ Plug 'ervandew/supertab'
 
 " omnicompletion engines
 Plug 'autozimu/LanguageClient-neovim', {'tag': 'binary-*-x86_64-apple-darwin'}
-Plug 'zchee/deoplete-clang', { 'for': ['c', 'cpp', 'objc', 'objcpp'] }
-Plug 'artur-shaik/vim-javacomplete2', { 'for': 'java' }
-Plug 'othree/csscomplete.vim', { 'for': 'css' }
-Plug 'othree/html5.vim', { 'for': 'html' }
-Plug 'carlitux/deoplete-ternjs', { 'do': 'npm install -g tern' }
+Plug 'zchee/deoplete-clang', {'for': ['c', 'cpp', 'objc', 'objcpp']}
+Plug 'othree/csscomplete.vim', {'for': 'css'}
+Plug 'othree/html5.vim', {'for': 'html'}
 
 " language servers
 Plug 'roxma/LanguageServer-php-neovim',  {'do': 'composer install && composer run-script parse-stubs'}
@@ -160,8 +151,8 @@ Plug 'roxma/LanguageServer-php-neovim',  {'do': 'composer install && composer ru
 Plug 'w0rp/ale'
 
 " formatting
-Plug 'jiangmiao/auto-pairs', { 'for': 'html' }
-Plug 'alvan/vim-closetag', { 'for': 'html'  }
+Plug 'jiangmiao/auto-pairs'
+Plug 'alvan/vim-closetag', {'for': ['html', 'xml', 'xhtml']}
 Plug 'editorconfig/editorconfig-vim'
 Plug 'tpope/vim-sleuth'
 Plug 'godlygeek/tabular'
@@ -183,6 +174,7 @@ endif
 
 " miscellaneous
 Plug 'ajorgensen/vim-markdown-toc'
+Plug 'vim-scripts/cmdalias.vim'
 
 call plug#end()
 
@@ -205,6 +197,7 @@ let g:deoplete#ignore_sources.php = ['omni']
 " ultisnips
 let g:UltiSnipsExpandTrigger = "<nop>"
 let g:ulti_expand_or_jump_res = 0
+
 function ExpandSnippetOrCarriageReturn()
     let l:snippet = UltiSnips#ExpandSnippetOrJump()
     if g:ulti_expand_or_jump_res > 0
@@ -213,56 +206,56 @@ function ExpandSnippetOrCarriageReturn()
         return "\<CR>"
     endif
 endfunction
+
 inoremap <expr> <CR> pumvisible() ? "<C-R>=ExpandSnippetOrCarriageReturn()<CR>" : "\<CR>"
 
 " supertab
 let g:SuperTabDefaultCompletionType = '<c-n>'
 
 " LanguageClient-neovim
-let g:LanguageClient_serverCommands = {
-    \'lua': ['lua-lsp'],
-    \'python': ['pyls'],
-    \'php': ['php', '~/.vim/plugged/LanguageServer-php-neovim/vendor/bin/php-language-server.php']
-\}
+function SetupLanguageClients()
+    let g:LanguageClient_serverCommands = {
+        \'java': ['jdt-ls', FindRootDirectory()],
+        \'javascript': ['javascript-typescript-stdio'],
+        \'lua': ['lua-lsp'],
+        \'php': ['php', '~/.vim/plugged/LanguageServer-php-neovim/vendor/bin/php-language-server.php'],
+        \'python': ['pyls'],
+        \'sh': ['bash-language-server', 'start']
+    \}
 
-" vim-javacomplete2
-autocmd FileType java setlocal omnifunc=javacomplete#Complete
-nmap <F4> <Plug>(JavaComplete-Imports-AddSmart)
-imap <F4> <Plug>(JavaComplete-Imports-AddSmart)
-nmap <F5> <Plug>(JavaComplete-Imports-Add)
-imap <F5> <Plug>(JavaComplete-Imports-Add)
-nmap <F6> <Plug>(JavaComplete-Imports-AddMissing)
-imap <F6> <Plug>(JavaComplete-Imports-AddMissing)
-nmap <F7> <Plug>(JavaComplete-Imports-RemoveUnused)
-imap <F7> <Plug>(JavaComplete-Imports-RemoveUnused)
+    " if (&ft == 'c' || &ft == 'cpp' || &ft == 'objc' || &ft == 'objcpp') && empty(glob(FindRootDirectory()."/compile_commands.json"))
+    "     silent !clear
+    "     silent execute "!cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=ON"
+    " endif
+
+    LanguageClientStart()
+endfunction
+
+autocmd FileType java,javascript,lua,php,python,sh call SetupLanguageClients()
+
+command Rename     call LanguageClient_textDocument_rename()
+command Hover      call LanguageClient_textDocument_hover()
+command Definition call LanguageClient_textDocument_definition()
+command Symbols    call LanguageClient_textDocument_documentSymbol()
+command Format     call LanguageClient_textDocument_formatting()
+command Action     call LanguageClient_textDocument_codeAction()
 
 " csscomplete.vim
 autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS noci
 
-" tern_for_vim
-autocmd FileType javascript setlocal omnifunc=tern#Complete
-
-" atp_vim
-let g:atp_Compiler='bash'
-
 " ale
 let g:ale_linters = {
-\   'php': ['langserver'],
-\   'python': ['pyls']
+    \'c': ['clang'],
+    \'cpp': ['clang'],
+    \'java': [],
+    \'javascript': [],
+    \'php': [],
+    \'python': ['pyls'],
+    \'sh': ['shellcheck'],
 \}
 
-" vim-closetag
-let g:closetag_filenames = '*.html,*.xhtml,*.phtml'
-let g:closetag_xhtml_filenames = '*.xhtml,*.jsx'
-let g:closetag_emptyTags_caseSensitive = 1
-let g:closetag_shortcut = '>'
-let g:closetag_close_shortcut = '<leader>>'
-
-" lanugage servers
-autocmd FileType py LanguageClientStart
-
 " NERDTree
-let NERDTreeShowHidden=1
+let g:NERDTreeShowHidden = 1
 
 " macvim.vim
 if has ('nvim')
