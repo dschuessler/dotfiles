@@ -249,6 +249,7 @@ let g:ale_linters = {
     \'cpp': ['clang'],
     \'java': [],
     \'javascript': [],
+    \'lua': [],
     \'php': [],
     \'python': ['pyls'],
     \'sh': ['shellcheck'],
