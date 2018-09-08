@@ -21,10 +21,10 @@ set expandtab
 autocmd FileType make setlocal noexpandtab
 
 " number of visual spaces per indentation
-set shiftwidth=4
+set shiftwidth = 4
 
 " number of visual spaces per tab
-set softtabstop=4
+set softtabstop = 4
 
 " =========== INDENTATION ===========
 
@@ -114,6 +114,12 @@ if !has ('nvim')
         set pythonhome=/usr/local/Frameworks/Python.framework/Versions/2.7
     endif
 endif
+
+" =========== WEB DEVELOPMENT ===========
+
+" Live reload browser view
+let ip = system("ipconfig getifaddr en0")
+autocmd FileType html,javascript,css silent execute "!browser-sync start -s -f " . FindRootDirectory() . " --no-notify --host " . ip . " --port 9000 &"
 
 " =========== PLUGINS ===========
 
