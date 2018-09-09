@@ -21,10 +21,10 @@ set expandtab
 autocmd FileType make setlocal noexpandtab
 
 " number of visual spaces per indentation
-set shiftwidth = 4
+set shiftwidth=4
 
 " number of visual spaces per tab
-set softtabstop = 4
+set softtabstop=4
 
 " =========== INDENTATION ===========
 
@@ -80,10 +80,6 @@ set wildmenu
 " search matches as characters are entered
 set incsearch
 
-" use tab key to cycle through suggestions
-" inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
-" inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-
 " don't show omnicompletion previews
 set completeopt-=preview
 
@@ -114,12 +110,6 @@ if !has ('nvim')
         set pythonhome=/usr/local/Frameworks/Python.framework/Versions/2.7
     endif
 endif
-
-" =========== WEB DEVELOPMENT ===========
-
-" Live reload browser view
-let ip = system("ipconfig getifaddr en0")
-autocmd FileType html,javascript,css silent execute "!browser-sync start -s -f " . FindRootDirectory() . " --no-notify --host " . ip . " --port 9000 &"
 
 " =========== PLUGINS ===========
 
@@ -167,7 +157,7 @@ Plug 'godlygeek/tabular'
 Plug 'jeffkreeftmeijer/vim-numbertoggle'
 
 " live preview
-Plug 'juanwolf/browserlink.vim'
+Plug 'CandySunPlus/browserlink.vim'
 
 " project management
 Plug 'scrooloose/nerdtree'
@@ -181,6 +171,8 @@ endif
 " miscellaneous
 Plug 'ajorgensen/vim-markdown-toc'
 Plug 'vim-scripts/cmdalias.vim'
+Plug '/usr/local/opt/fzf'
+Plug 'junegunn/fzf.vim'
 
 call plug#end()
 
@@ -257,7 +249,7 @@ let g:ale_linters = {
     \'javascript': [],
     \'lua': [],
     \'php': [],
-    \'python': ['pyls'],
+    \'python': [],
     \'sh': ['shellcheck'],
 \}
 
