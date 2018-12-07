@@ -132,8 +132,6 @@ else
     Plug 'roxma/nvim-yarp'
     Plug 'roxma/vim-hug-neovim-rpc'
 endif
-Plug 'honza/vim-snippets'
-Plug 'SirVer/ultisnips'
 Plug 'ervandew/supertab'
 
 " omnicompletion engines
@@ -195,23 +193,8 @@ autocmd BufNewFile,BufRead * setlocal formatoptions-=r
 let g:deoplete#auto_complete_delay = 0
 let g:deoplete#complete_method = "omnifunc"
 let g:deoplete#enable_at_startup = 1
-let g:deoplete#sources#clang#libclang_path = '/usr/local/Cellar/llvm/7.0.0/lib/libclang.dylib'
-let g:deoplete#sources#clang#clang_header = '/usr/local/Cellar/llvm/7.0.0/lib/clang/7.0.0/include'
-
-" ultisnips
-let g:UltiSnipsExpandTrigger = "<nop>"
-let g:ulti_expand_or_jump_res = 0
-
-function ExpandSnippetOrCarriageReturn()
-    let l:snippet = UltiSnips#ExpandSnippetOrJump()
-    if g:ulti_expand_or_jump_res > 0
-        return l:snippet
-    else
-        return "\<CR>"
-    endif
-endfunction
-
-inoremap <expr> <CR> pumvisible() ? "<C-R>=ExpandSnippetOrCarriageReturn()<CR>" : "\<CR>"
+let g:deoplete#sources#clang#libclang_path = '/usr/local/opt/llvm/lib/libclang.dylib'
+let g:deoplete#sources#clang#clang_header = '/usr/local/opt/llvm/lib/clang/7.0.0/include'
 
 " supertab
 let g:SuperTabDefaultCompletionType = '<c-n>'
@@ -226,11 +209,6 @@ function SetupLanguageClients()
         \'python': ['pyls'],
         \'sh': ['bash-language-server', 'start'],
     \}
-
-    " if (&ft == 'c' || &ft == 'cpp' || &ft == 'objc' || &ft == 'objcpp') && empty(glob(FindRootDirectory()."/compile_commands.json"))
-    "     silent !clear
-    "     silent execute "!cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=ON"
-    " endif
 
     LanguageClientStart()
 endfunction
