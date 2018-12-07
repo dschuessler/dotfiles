@@ -196,7 +196,7 @@ let g:deoplete#auto_complete_delay = 0
 let g:deoplete#complete_method = "omnifunc"
 let g:deoplete#enable_at_startup = 1
 let g:deoplete#sources#clang#libclang_path = '/usr/local/Cellar/llvm/7.0.0/lib/libclang.dylib'
-let g:deoplete#sources#clang#clang_header = '/usr/local/Cellar/llvm/7.0.0/lib/clang/6.0.0/include'
+let g:deoplete#sources#clang#clang_header = '/usr/local/Cellar/llvm/7.0.0/lib/clang/7.0.0/include'
 
 " ultisnips
 let g:UltiSnipsExpandTrigger = "<nop>"
@@ -267,3 +267,4 @@ let g:rooter_silent_chdir = 1
 if has ('nvim')
     colorscheme macvim
 endif
+
