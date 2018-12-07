@@ -118,6 +118,8 @@ call plug#begin('~/.vim/plugged')
 " syntax highlighting
 Plug 'aklt/plantuml-syntax', {'for': 'plantuml'}
 Plug 'ARM9/arm-syntax-vim', {'for': 'arm'}
+Plug 'keith/swift.vim', {'for': 'swift'}
+Plug 'leafgarland/typescript-vim', {'for': 'typescript'}
 Plug 'plasticboy/vim-markdown', {'for': 'markdown'}
 Plug 'solarnz/thrift.vim', {'for': 'thrift'}
 Plug 'vim-scripts/applescript.vim', {'for': 'applescript'}
@@ -135,7 +137,10 @@ Plug 'SirVer/ultisnips'
 Plug 'ervandew/supertab'
 
 " omnicompletion engines
-Plug 'autozimu/LanguageClient-neovim', {'tag': 'binary-*-x86_64-apple-darwin'}
+Plug 'autozimu/LanguageClient-neovim', {
+    \ 'branch': 'next',
+    \ 'do': 'bash install.sh',
+    \ }
 Plug 'zchee/deoplete-clang', {'for': ['c', 'cpp', 'objc', 'objcpp']}
 Plug 'othree/csscomplete.vim', {'for': 'css'}
 Plug 'othree/html5.vim', {'for': 'html'}
@@ -147,10 +152,12 @@ Plug 'roxma/LanguageServer-php-neovim',  {'do': 'composer install && composer ru
 Plug 'w0rp/ale'
 
 " formatting
-Plug 'jiangmiao/auto-pairs'
+Plug 'jiangmiao/auto-pairs', {'for': ['html', 'xml', 'xhtml']}
 Plug 'alvan/vim-closetag', {'for': ['html', 'xml', 'xhtml']}
 Plug 'editorconfig/editorconfig-vim'
+Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-sleuth'
+Plug 'tpope/vim-surround'
 Plug 'godlygeek/tabular'
 
 " visual aids
@@ -170,7 +177,6 @@ endif
 
 " miscellaneous
 Plug 'ajorgensen/vim-markdown-toc'
-Plug 'vim-scripts/cmdalias.vim'
 Plug '/usr/local/opt/fzf'
 Plug 'junegunn/fzf.vim'
 
@@ -186,11 +192,11 @@ let g:vim_markdown_folding_disabled = 1
 autocmd BufNewFile,BufRead * setlocal formatoptions-=r
 
 " deoplete
+let g:deoplete#auto_complete_delay = 0
+let g:deoplete#complete_method = "omnifunc"
 let g:deoplete#enable_at_startup = 1
-let g:deoplete#sources#clang#libclang_path = '/usr/local/Cellar/llvm/6.0.0/lib/libclang.dylib'
-let g:deoplete#sources#clang#clang_header = '/usr/local/Cellar/llvm/6.0.0/lib/clang/6.0.0/include'
-let g:deoplete#ignore_sources = get(g:, 'deoplete#ignore_sources', {})
-let g:deoplete#ignore_sources.php = ['omni']
+let g:deoplete#sources#clang#libclang_path = '/usr/local/Cellar/llvm/7.0.0/lib/libclang.dylib'
+let g:deoplete#sources#clang#clang_header = '/usr/local/Cellar/llvm/7.0.0/lib/clang/6.0.0/include'
 
 " ultisnips
 let g:UltiSnipsExpandTrigger = "<nop>"
@@ -218,7 +224,7 @@ function SetupLanguageClients()
         \'lua': ['lua-lsp'],
         \'php': ['php', '~/.vim/plugged/LanguageServer-php-neovim/vendor/bin/php-language-server.php'],
         \'python': ['pyls'],
-        \'sh': ['bash-language-server', 'start']
+        \'sh': ['bash-language-server', 'start'],
     \}
 
     " if (&ft == 'c' || &ft == 'cpp' || &ft == 'objc' || &ft == 'objcpp') && empty(glob(FindRootDirectory()."/compile_commands.json"))
@@ -243,8 +249,6 @@ autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS noci
 
 " ale
 let g:ale_linters = {
-    \'c': ['clang'],
-    \'cpp': ['clang'],
     \'java': [],
     \'javascript': [],
     \'lua': [],
@@ -255,6 +259,9 @@ let g:ale_linters = {
 
 " NERDTree
 let g:NERDTreeShowHidden = 1
+
+" vim-rooter
+let g:rooter_silent_chdir = 1
 
 " macvim.vim
 if has ('nvim')
