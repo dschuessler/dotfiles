@@ -226,14 +226,25 @@ command Action     call LanguageClient_textDocument_codeAction()
 autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS noci
 
 " ale
+let g:ale_linters_explicit = 1
 let g:ale_linters = {
-    \'java': [],
-    \'javascript': [],
-    \'lua': [],
-    \'php': [],
-    \'python': [],
-    \'sh': ['shellcheck'],
-\}
+    \ 'c': ['clang'],
+    \ 'cpp': ['clang'],
+    \ 'css': ['csslint'],
+    \ 'dockerfile': ['hadolint'],
+    \ 'html': ['htmlhint'],
+    \ 'javascript': ['jshint'],
+    \ 'json': ['jsonlint'],
+    \ 'objc': ['clang'],
+    \ 'objcpp': ['clang'],
+    \ 'sh': ['shellcheck'],
+    \ 'sql': ['sqlint'],
+    \ 'thrift': ['thrift'],
+    \ 'typescript': ['tslint'],
+    \ 'vim': ['vint'],
+    \ 'xml': ['xmllint'],
+    \ 'yaml': ['yamllint'],
+\ }
 
 " NERDTree
 let g:NERDTreeShowHidden = 1
